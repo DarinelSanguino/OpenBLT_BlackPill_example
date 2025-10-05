@@ -32,8 +32,6 @@
 #include "boot.h"                                /* bootloader generic header          */
 #include "stm32f4xx.h"                           /* STM32 CPU and HAL header           */
 
-extern uint32_t hardfault_args[8];
-
 /****************************************************************************************
 * Function prototypes
 ****************************************************************************************/

@@ -64,9 +64,6 @@ LoopFillZerobss:
 
 /* Call the clock system intitialization function.*/
   	bl  SystemInit
-  	ldr r0, =0xE000ED08
-  	ldr r1, =g_pfnVectors
-  	str r1, [r0]
 /* Call static constructors */
     bl __libc_init_array
 /* Call the application's entry point.*/
@@ -404,5 +401,3 @@ g_pfnVectors:
 
 	.weak      SPI4_IRQHandler
 	.thumb_set SPI4_IRQHandler,Default_Handler
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
