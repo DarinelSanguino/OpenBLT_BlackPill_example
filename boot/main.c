@@ -103,10 +103,11 @@ int main(void)
 ****************************************************************************************/
 static void Init(void)
 {
-  /* HAL library initialization */
-  HAL_Init();
   /* configure system clock */
   SystemClock_Config();
+  /* HAL library initialization */
+  HAL_Init();
+
 } /*** end of Init ***/
 
 
