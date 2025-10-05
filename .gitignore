@@ -1,3 +1,9 @@
 # .gitignore
 
 boot/obj
+boot/.cproject
+boot/.project
+boot/.settings/
+boot/openblt_stm32f401.launch
+
+app/obj
