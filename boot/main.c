@@ -49,6 +49,7 @@ static void SystemClock_Config(void);
 ****************************************************************************************/
 int main(void)
 {
+
   blt_int8u deferredInitRequestFlag = 0;
 
   /* initialize the microcontroller */
