@@ -51,7 +51,7 @@
 /** \brief Motorola or Intel style byte ordering. */
 #define BOOT_CPU_BYTE_ORDER_MOTOROLA     (0)
 /** \brief Enable/disable hook function call right before user program start. */
-#define BOOT_CPU_USER_PROGRAM_START_HOOK (0)
+#define BOOT_CPU_USER_PROGRAM_START_HOOK (1)
 
 
 /****************************************************************************************
@@ -162,7 +162,7 @@
  * also be implemented in a way that disables the backdoor entry altogether.
  */
 /** \brief Enable/disable the backdoor override hook functions. */
-#define BOOT_BACKDOOR_HOOKS_ENABLE      (0)
+#define BOOT_BACKDOOR_HOOKS_ENABLE      (1)
 
 
 /****************************************************************************************

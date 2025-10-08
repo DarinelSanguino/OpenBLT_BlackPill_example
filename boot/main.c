@@ -38,6 +38,10 @@
 static void Init(void);
 static void SystemClock_Config(void);
 
+#if (BOOT_BACKDOOR_HOOKS_ENABLE > 0)
+extern blt_bool BackDoorEntryHook(void);
+#endif
+
 
 /************************************************************************************//**
 ** \brief     This is the entry point for the bootloader application and is called
@@ -83,12 +87,21 @@ int main(void)
     ComDeferredInit();
   }
 #endif
-  
+
   /* start the infinite program loop */
   while (1)
   {
     /* run the bootloader task */
     BootTask();
+
+#if (BOOT_BACKDOOR_HOOKS_ENABLE > 0)
+  /* attempt to start the user program when no backdoor entry is requested */
+  if (BackDoorEntryHook() == BLT_FALSE)
+  {
+    /* this function does not return if a valid user program is present */
+    CpuStartUserProgram();
+  }
+#endif
   }
 
   /* program should never get here */
@@ -198,6 +211,15 @@ void HAL_MspInit(void)
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
 
+#if (BOOT_CPU_USER_PROGRAM_START_HOOK > 0)
+  /* Configure GPIO pin for the program start button. */
+  GPIO_InitStruct.Pin = GPIO_PIN_0;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+#endif
+
 #if (BOOT_COM_RS232_ENABLE > 0)
   /* UART TX and RX GPIO pin configuration. */
   GPIO_InitStruct.Pin = GPIO_PIN_9 | GPIO_PIN_10;
@@ -227,6 +249,11 @@ void HAL_MspDeInit(void)
 
   /* Deinit used GPIOs. */
   HAL_GPIO_DeInit(GPIOC, GPIO_PIN_13);
+
+#if (BOOT_CPU_USER_PROGRAM_START_HOOK > 0)
+  HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0);
+#endif
+
 
 #if (BOOT_COM_RS232_ENABLE > 0)
   /* Deinit used GPIOs. */

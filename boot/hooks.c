@@ -56,8 +56,14 @@ void BackDoorInitHook(void)
 ****************************************************************************************/
 blt_bool BackDoorEntryHook(void)
 {
+#if (BOOT_COM_ENABLE > 0)
+  if (ComIsConnected() == BLT_TRUE)
+  {
+    return BLT_TRUE;
+  }
+#endif
   /* default implementation always activates the bootloader after a reset */
-  return BLT_TRUE;
+  return BLT_FALSE;
 } /*** end of BackDoorEntryHook ***/
 #endif /* BOOT_BACKDOOR_HOOKS_ENABLE > 0 */
 
@@ -82,7 +88,7 @@ blt_bool CpuUserProgramStartHook(void)
    * force the bootloader to stay active after reset, keep the pushbutton pressed while
    * resetting the microcontroller.
    */
-  if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_SET)
+  if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_SET)
   {
     /* pushbutton pressed, so do not start the user program and keep the
      * bootloader active instead.
